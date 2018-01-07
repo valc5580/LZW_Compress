@@ -9,6 +9,9 @@
 
 using namespace std;
 
+
+//a different line
+
 //Vector of encoded data
 vector<int> encoded;
 
