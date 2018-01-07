@@ -3,14 +3,9 @@
 #include <vector>
 #include <math.h>
 
-//random line
-
 #include "Dictionary.h"
 
 using namespace std;
-
-
-//a different line
 
 //Vector of encoded data
 vector<int> encoded;
