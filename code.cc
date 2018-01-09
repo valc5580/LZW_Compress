@@ -7,6 +7,9 @@
 
 using namespace std;
 
+//Vector of source text
+vector<int> source;
+
 //Vector of encoded data
 vector<int> encoded;
 
@@ -16,10 +19,9 @@ void printVector (vector <int> v){
     cout<<v[v.size()-1]<<endl;
 }
 
-//Compression Ratio Calculator  =  Size of coded * log (size of coded alphabet (just 0 or 1) /  Size of source * log (size of source alphabet)         * 100
-///  (Number of items in vector * assume 12 bits per number * log 2 ) /  ( Number of Characters*(7 bits per character) * log (assume 128 possible characters) )         * 100
-double CompCalc (int cSize, int cAlph, int sSize, int sAlph){
-    return (cSize * log(cAlph))/(sSize * log (sAlph))*100;
+//Compression Ratio Calculator  =  Size of coded in bits / Size of source text
+double CompCalc (int cNum, int sNum){
+    return ((double)cNum*7)/((double)sNum*8)*100;
 }
 
 //LZW Algorithm
@@ -50,14 +52,26 @@ int main(){
     char c;
     string s="";
     int numOfChars= 0;
+    cout<<"Enter text (ascii) below to code and compress:"<<endl;
     while (cin.get(c)){
+        if (c>127){
+            cout<<"\nYou entered a character not in the 128 ascii characters."<<endl;
+            return 0;
+        }
         s=s+c;
         numOfChars++;
+        source.push_back((int)c);
     }
+    
+    cout<<"Converting each character to int (index in ascii table) we get:"<<endl;
+    for (int i=0; i<source.size(); i++){
+        cout<<source[i]<<" ";
+    }
+    cout<<endl;
     encode (s);
     cout<<"The encoded data is:"<<endl;
     printVector(encoded);
-    cout<<"The compression on this text is: "<<CompCalc(encoded.size()*12, 2, numOfChars*7, 128)<<"%"<<endl;
+    cout<<"The compression on this text is: "<<CompCalc(encoded.size(),numOfChars)<<"%"<<endl;
     
 }
 
